@@ -1,8 +1,8 @@
-from os import environ, path
+import os
 from dotenv import load_dotenv
 
-basedir = path.abspath(path.dirname(__file__))
-load_dotenv(path.join(basedir, '.env'))
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
 
 
 class Config:
@@ -10,10 +10,12 @@ class Config:
 
     FLASK_ENV = 'development'
     TESTING = True
-    SECRET_KEY = environ.get('SECRET_KEY')
+    DEBUG = True
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     STATIC_FOLDER = 'static'
     TEMPLATES_FOLDER = 'templates'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # Database
-    #SQLALCHEMY_DATABASE_URI = environ.get('SQLALCHEMY_DATABASE_URI')
-    #SQLALCHEMY_TRACK_MODIFICATIONS = False
+    

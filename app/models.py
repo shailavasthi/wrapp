@@ -23,25 +23,37 @@ class User(db.Model, UserMixin):
 	def check_password(self, password):
 		return check_password_hash(self.password_hash, password)
 
+	def __repr__(self):
+		return '<User {}>'.format(self.username)    
+
 class Project(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	title = db.Column(db.String)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
+	def __repr__(self):
+		return '<Project {}>'.format(self.title)    
+
 class Idea(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+	title = db.Column(db.String)
 	idea_freewrite = db.Column(db.String)
 	idea_question = db.Column(db.String)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+	def __repr__(self):
+		return '<Idea {}>'.format(self.title)    
 
 class Outline(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+	title = db.Column(db.String)
 
 	topic = db.Column(db.String)
 
@@ -67,6 +79,9 @@ class Outline(db.Model):
 	section_8_body = db.Column(db.Text)
 	section_9_body = db.Column(db.Text)
 	section_10_body = db.Column(db.Text)
+
+	def __repr__(self):
+		return '<Outline {}>'.format(self.title)    
 
 
 class Draft(db.Model):
@@ -75,6 +90,7 @@ class Draft(db.Model):
 	project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
 	version = db.Column(db.Integer)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+	title = db.Column(db.String)
 
 	topic = db.Column(db.String)
 
@@ -99,4 +115,7 @@ class Draft(db.Model):
 	section_8_body = db.Column(db.Text)
 	section_9_body = db.Column(db.Text)
 	section_10_body = db.Column(db.Text)
+
+	def __repr__(self):
+		return '<Draft {}>'.format(self.title)    
 

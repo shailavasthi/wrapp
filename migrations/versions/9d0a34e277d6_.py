@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 4d5f670fe27e
+Revision ID: 9d0a34e277d6
 Revises: 
-Create Date: 2020-08-04 15:18:15.882534
+Create Date: 2020-08-04 16:39:47.099196
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4d5f670fe27e'
+revision = '9d0a34e277d6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,7 +26,9 @@ def upgrade():
     sa.Column('last_name', sa.String(), nullable=True),
     sa.Column('password_hash', sa.String(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email'),
+    sa.UniqueConstraint('username')
     )
     op.create_index(op.f('ix_user_timestamp'), 'user', ['timestamp'], unique=False)
     op.create_table('project',
@@ -44,6 +46,7 @@ def upgrade():
     sa.Column('project_id', sa.Integer(), nullable=True),
     sa.Column('version', sa.Integer(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('title', sa.String(), nullable=True),
     sa.Column('topic', sa.String(), nullable=True),
     sa.Column('section_1_title', sa.String(), nullable=True),
     sa.Column('section_2_title', sa.String(), nullable=True),
@@ -74,6 +77,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('project_id', sa.Integer(), nullable=True),
+    sa.Column('title', sa.String(), nullable=True),
     sa.Column('idea_freewrite', sa.String(), nullable=True),
     sa.Column('idea_question', sa.String(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
@@ -87,6 +91,7 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('project_id', sa.Integer(), nullable=True),
     sa.Column('timestamp', sa.DateTime(), nullable=True),
+    sa.Column('title', sa.String(), nullable=True),
     sa.Column('topic', sa.String(), nullable=True),
     sa.Column('section_1_title', sa.String(), nullable=True),
     sa.Column('section_2_title', sa.String(), nullable=True),

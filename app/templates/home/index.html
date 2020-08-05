@@ -8,7 +8,7 @@
 		{% else %}
 		<h1 class='display-4'>Welcome to Wrapp!</h1>
 		{% endif %}
-		<p class="lead">Description coming soon.</p>
+		<p class="lead">Turn your idea into a final draft in less time. Get started now.</p>
 		<hr class="my-4">
 
 		{% if current_user.is_authenticated %}
@@ -23,7 +23,14 @@
 			<a class="btn btn-primary btn-lg ml-4" href="{{ url_for('auth.register') }}" role="button">Sign Up &raquo;</a>
 	 	</p>
 		{% endif %}
+
 	</div>
+</div>
+<div class='container'>
+	<h1>About Wrapp</h1>
+	<p class='lead'>Wrapp is a powerful tool designed to help writers
+	outline, draft, and edit their projects in a streamlined fashion.</p>
+	<p>Product description</p>
 </div>
 
 

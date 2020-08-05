@@ -1,0 +1,26 @@
+{% extends 'base.html'%}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current='page'>Idea</li>
+  </ol>
+</nav>
+
+<div class='container mt-5'>
+	<div class='row'>
+		<div class='col'></div>
+		<div class='col-8'>
+			<h1>Idea Editor</h1>
+			<p>{{ idea.title }}</p>
+			<p>{{ idea.idea_freewrite }}</p>
+			<p>{{ idea.idea_question }}</p>
+			{{ wtf.quick_form(form, button_map={'submit': 'btn btn-outline-primary'}) }}
+		</div>
+		<div class='col'></div>
+	</div>
+</div>
+{% endblock %}

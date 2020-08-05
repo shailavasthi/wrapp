@@ -2,6 +2,13 @@
 
 {% block content %}
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current='page'>{{ project.title }}</li>
+  </ol>
+</nav>
+
 <div class='container mt-5'>
 	<div class='row'>
 		<div class='col'>
@@ -9,15 +16,97 @@
 			<small><a class='text-primary' href="{{ url_for('project.dashboard') }}">Return to Dashboard</a></small><br>
 			<small><a class='text-danger' href="{{ url_for('project.delete', id=project.id, type='project') }}">Delete Project</a></small>
 		</div>
-		<div class='col-6'>
-		
-				
+		<div class='col-8'>
+			<h1 class="display-4 text-center">{{ project.title }}</h1>
+			<p class='lead text-center'>Project Dashboard</p>
+			<hr>
+			<h2> Your Progress: </h1><span id='progress' style='display: none;'>{{ project.progress }}</span>
+			<div class="progress">
+			  <div id='progress-bar' class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%; transition: none;"></div>
+			</div>
+			<div class="card mt-3" id='75'>
+			  <div class="card-header">
+			    Step 4
+			  </div>
+			  <div class="card-body">
+			    <h5 class="card-title">Edit Your Draft</h5>
+			    <p class="card-text">Recursively edit your drafts to build a well-crafted 
+			    final draft</p>
+			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			  </div>
+			</div>
 			
+			<div class="card mt-3" id='50'>
+			  <div class="card-header">
+			    Step 3
+			  </div>
+			  <div class="card-body">
+			    <h5 class="card-title">Write Your First Draft</h5>
+			    <p class="card-text">Take all of the writing that you've done so far and turn it
+			    into a workable first draft.</p>
+			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			  </div>
+			</div>
+			
+			<div class="card mt-3" id='25'>
+			  <div class="card-header">
+			    Step 2
+			  </div>
+			  <div class="card-body">
+			    <h5 class="card-title">Create an Outline</h5>
+			    <p class="card-text">Define a thesis or topic, outline your sub-sections, and 
+			    formalize your argument.</p>
+			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			  </div>
+			</div>
+			<div class="card mt-3" id='0'>
+			  <div class="card-header">
+			    Step 1
+			  </div>
+			  <div class="card-body">
+			    <h5 class="card-title">Come Up With a Topic</h5>
+			    <p class="card-text">Start here. This tool will help you solidify your idea and 
+			    put your thinking on paper.  </p>
+			    <a href="{{ url_for('project.idea_editor', proj_id=project.id) }}" class="btn btn-primary">
+			    	{% if project.ideas.first() is none %} Start Here {% else %} Edit Idea{% endif %}
+				</a>
+			  </div>
+			</div>	
 		</div>
 		<div class='col'></div>
 	</div>
 </div>
+<div class='mt-5'>
+	
+</div>
+
+<style type="text/css">
+	.hidden {
+		display: none;
+	}
+</style>
+
+<script type="text/javascript">
+	var progress = $( '#progress' ).text()
+	$( "#progress-bar" ).css("width",progress+'%')
+
+	$( ".card" ).hide();
+	$( "#"+progress ).show();
+	$( "#"+progress ).addClass('border-primary');
+	var m25 = parseInt(progress)-25;
+	m25 = m25.toString();
+	$( "#"+m25 ).show();
+	var m50 = parseInt(progress)-50;
+	m50 = m50.toString();
+	$( "#"+m50 ).show();
+	var m75 = parseInt(progress)-75;
+	m75 = m75.toString();
+	$( "#"+m75 ).show();
+	var m100 = parseInt(progress)-100;
+	m100 = m100.toString();
+	$( "#"+m100 ).show();
 
 
+</script>
 
 {% endblock content %}

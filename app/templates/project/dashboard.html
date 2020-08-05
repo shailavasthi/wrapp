@@ -3,15 +3,21 @@
 
 {% block content %}
 
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current='page'>Dashboard</li>
+  </ol>
+</nav>
+
 <div class='container mt-5'>
 	<div class='row'>
 		<div class='col'></div>
-		<div class='col-6'>
-			<h1>{{ current_user.first_name }}'s Current Projects</h1>
+		<div class='col-8'>
+			<h1 class='display-4'>{{ current_user.first_name }}'s Current Projects</h1>
 			<p>Open a Project or Create a <a href="{{ url_for('project.new_project') }}">New Project</a></p>
 			<div class="list-group">
 				{% for project in projects %}
-			  	<a href="{{ url_for('project.project_dashboard', id=project.id)}}" class="list-group-item list-group-item-action">{{ project.title }}</a>
+			  	<a href="{{ url_for('project.project_dashboard', proj_id=project.id)}}" class="list-group-item list-group-item-action">{{ project.title }}</a>
 			  	{% endfor %}
 			</div>
 

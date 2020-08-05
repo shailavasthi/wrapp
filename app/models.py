@@ -31,6 +31,11 @@ class Project(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	title = db.Column(db.String)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+	progress = db.Column(db.Integer, default=0)
+
+	ideas = db.relationship('Idea', backref='project', cascade="all,delete", lazy='dynamic')
+	outlines = db.relationship('Outline', backref='project', cascade="all,delete", lazy='dynamic')
+	drafts = db.relationship('Draft', backref='project', cascade="all,delete", lazy='dynamic')
 
 	def __repr__(self):
 		return '<Project {}>'.format(self.title)    

@@ -14,7 +14,7 @@
 		{% if current_user.is_authenticated %}
 		<p>Go to Your Dashboard</p>
 		<p class="lead">
-			<a class="btn btn-primary btn-lg" href="#" role="button">Dashboard &raquo;</a>
+			<a class="btn btn-primary btn-lg" href="{{ url_for('project.dashboard') }}" role="button">Dashboard &raquo;</a>
 		</p>
 		{% else %}
 		<p>Sign In or Create an Account Below</p>

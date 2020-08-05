@@ -10,7 +10,7 @@ class Config:
 
     FLASK_ENV = 'development'
     FLASK_DEBUG=1
-    TESTING = True
+    TESTING = False
     DEBUG = True
     SECRET_KEY = os.environ.get('SECRET_KEY')
     STATIC_FOLDER = 'static'

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class='container mt-5'>
+	<div class='row'>
+		<div class='col'></div>
+		<div class='col-6'>
+			<h1>{{ current_user.first_name }}'s Current Projects</h1>
+			<p>Open a Project or Create a <a href="{{ url_for('project.new_project') }}">New Project</a></p>
+			<div class="list-group">
+				{% for project in projects %}
+			  	<a href="{{ url_for('project.project_dashboard', id=project.id)}}" class="list-group-item list-group-item-action">{{ project.title }}</a>
+			  	{% endfor %}
+			</div>
+
+		</div>
+		<div class='col'></div>
+	</div>
+</div>
+
+{% endblock content %}

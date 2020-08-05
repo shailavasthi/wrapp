@@ -23,6 +23,9 @@ def create_app():
 	from .auth import auth as auth_bp
 	app.register_blueprint(auth_bp, url_prefix='/auth')
 
+	from .error import error as error_bp
+	app.register_blueprint(error_bp)
+
 	db.init_app(app)
 	migrate.init_app(app, db)
 	login.init_app(app)

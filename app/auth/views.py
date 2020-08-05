@@ -20,8 +20,7 @@ def login():
 			flash('Invalid Username or Password', 'danger')
 			return redirect(url_for('auth.login'))
 
-		flash('{} Signed In'.format(
-            form.username.data), 'success')
+		flash('You are now signed in.', 'info')
 
 		login_user(user, remember=form.remember_me.data)
 
@@ -36,6 +35,7 @@ def login():
 @auth.route('/logout')
 def logout():
     logout_user()
+    flash('You are now logged out.', 'info')
     return redirect(url_for('home.home'))
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -51,10 +51,5 @@ def register():
 		flash('You are now a registered user', 'success')
 		return redirect(url_for('auth.login'))
 	return render_template('auth/register.html', title='Register', form=form)
-
-
-
-
-
 
 

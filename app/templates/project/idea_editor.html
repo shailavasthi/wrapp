@@ -5,7 +5,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url_for('project.dashboard') }}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{ url_for('project.project_dashboard', proj_id=project.id) }}">{{ project.title }}</a></li>
     <li class="breadcrumb-item active" aria-current='page'>Idea</li>
   </ol>
 </nav>
@@ -14,13 +14,84 @@
 	<div class='row'>
 		<div class='col'></div>
 		<div class='col-8'>
-			<h1>Idea Editor</h1>
-			<p>{{ idea.title }}</p>
-			<p>{{ idea.idea_freewrite }}</p>
-			<p>{{ idea.idea_question }}</p>
-			{{ wtf.quick_form(form, button_map={'submit': 'btn btn-outline-primary'}) }}
+			<h1 class="text-center">{{ project.title }}</h1>
+			<p class='lead text-center'>Idea Editor</p>
+			<hr>
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+
+				<div class="page page-1">
+					<h4>Topic</h4>
+					<p>Decide on a topic for your project. If you want to include sources into your project
+					but haven't read any yet, go back and read before you begin writing. Describe what you
+					are going to write about below. </p>
+					
+					<div class='form-group'>
+			            {{ form.title(class='form-control', value=idea.title) }}
+		       		</div>
+		       		<button type='button' class='btn btn-outline-primary next-button' id='pg-1-next'>Next</button>
+				</div>
+				<div class="page page-2 form-group">
+					<h4>Free Write</h4>
+					<p>Write freely about your topic for 10 minutes. Try and write continuously. Don't 
+					pay attention to grammar and spelling, and don't worry about editing what you wrote.
+					Just try and get all of your ideas about your topic down on paper. If you use informaition
+					from sources or find that you need to include more sources, indicate that in your writing </p>
+					
+					<div class='form-group'>
+			            <textarea class="form-control" name="idea_freewrite" rows=10>{{ idea.idea_freewrite }}</textarea> 
+		       		</div>
+		       		<button type='button' class='btn btn-outline-primary prev-button' id='pg-2-prev'>Previous</button>
+		       		<button type='button' class='btn btn-outline-primary next-button' id='pg-2-next'>Next</button>
+				</div>
+				<div class="page page-3 form-group">
+					<h4>Question</h4>
+					<p>Every piece of writing should answer a question. Now that you have gathered your 
+					ideas and thought them through, decide on a question that you want your project to 
+					answer. </p>
+					
+					<div class='form-group'>
+
+			            {{ form.idea_question(class='form-control', value=idea.idea_question) }}<br>
+			            <button type='button' class='btn btn-outline-primary prev-button' id='pg-3-prev'>Previous</button>
+			            {{ form.submit(class='btn btn-outline-success')}}
+		       		</div>
+
+				</div>
+			</form>
+				
 		</div>
 		<div class='col'></div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	var current_page = 1
+	$( '.page' ).hide();
+	$( '.page-1' ).show();
+
+	$( '.next-button').click(function() {
+		current_page++
+		$( '.page' ).hide();
+		$( '.page-'+current_page ).show()
+	})
+
+	$( '.prev-button').click(function() {
+		current_page--
+		$( '.page' ).hide();
+		$( '.page-'+current_page ).show()
+	})
+	
+
+    $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+</script>
+
 {% endblock %}
+
+

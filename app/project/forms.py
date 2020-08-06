@@ -16,7 +16,7 @@ class DeleteForm(FlaskForm):
 	submit = SubmitField('Delete Project')
 
 class IdeaEditorForm(FlaskForm):
-	title = StringField('Topic', validators=[DataRequired()])
-	idea_freewrite = TextAreaField('Freewrite', validators=[DataRequired()])
-	idea_question = StringField('Question', validators=[DataRequired()])
+	title = StringField('Topic')
+	idea_freewrite = TextAreaField('Freewrite')
+	idea_question = StringField('Question')
 	submit = SubmitField('Save Idea')

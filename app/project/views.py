@@ -54,18 +54,41 @@ def idea_editor(proj_id):
 	idea = project.ideas.first()
 
 	form = IdeaEditorForm()
-
+	
 	if form.validate_on_submit():
 		idea.title = form.title.data
 		idea.idea_freewrite = form.idea_freewrite.data
 		idea.idea_question = form.idea_question.data
-		project.progress = 25
 		flash('Idea Saved', 'success')
 		db.session.commit()
 		return redirect(url_for('project.project_dashboard', proj_id=project.id))
 		
 	return render_template('project/idea_editor.html', form=form, project=project, idea=idea)
 
+@project.route('/outline_editor/<proj_id>', methods=['GET', 'POST'])
+@login_required
+def outline_editor(proj_id):
+	project = Project.query.get(int(proj_id))
+
+	if current_user.id != project.user_id:
+			return redirect(url_for('project.dashboard'))
+
+	if project.outlines.first() == None:
+		outline = Outline(user_id=current_user.id, project_id=project.id)
+		db.session.add(outline)
+		db.session.commit()
+		return redirect(url_for('project.outline_editor', proj_id=project.id))
+
+	# form = OutlineEditorForm()
+
+	outline = project.outlines.first()
+	idea = project.ideas.first()
+
+	if form.validate_on_submit():
+		# code
+		pass
+
+	return render_template('project/outline_editor.html', form=form, project=project, idea=idea, outline=outline)
 
 @project.route('/delete/type=<type>/id=<id>', methods=['GET', 'POST'])
 @login_required
@@ -92,7 +115,7 @@ def delete(type, id):
 			return redirect(url_for('project.dashboard'))
 		item = Project.query.get(int(id))
 	else:
-		return redirect(url_for('dashboard'))
+		return redirect(url_for('project.dashboard'))
 
 	form = DeleteForm()
 
@@ -107,3 +130,11 @@ def delete(type, id):
 			flash('Password Incorrect', 'danger')
 
 	return render_template('project/delete.html', item=item, form=form, title='Delete')
+
+@project.route('/progress/<proj_id>', methods=['GET', 'POST'])
+@login_required
+def progress_project(proj_id):
+	project = Project.query.get(int(proj_id))
+	project.progress += 25
+	db.session.commit()
+	return redirect(url_for('project.project_dashboard', proj_id=proj_id))

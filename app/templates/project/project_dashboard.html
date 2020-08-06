@@ -9,6 +9,7 @@
   </ol>
 </nav>
 
+<a href="{{ url_for('project.progress_project', proj_id=project.id) }}">Progress</a>
 <div class='container mt-5'>
 	<div class='row'>
 		<div class='col'>
@@ -16,11 +17,12 @@
 			<small><a class='text-primary' href="{{ url_for('project.dashboard') }}">Return to Dashboard</a></small><br>
 			<small><a class='text-danger' href="{{ url_for('project.delete', id=project.id, type='project') }}">Delete Project</a></small>
 		</div>
+
 		<div class='col-8'>
-			<h1 class="display-4 text-center">{{ project.title }}</h1>
+			<h1 class="text-center">{{ project.title }}</h1>
 			<p class='lead text-center'>Project Dashboard</p>
 			<hr>
-			<h2> Your Progress: </h1><span id='progress' style='display: none;'>{{ project.progress }}</span>
+			<h2> Your Progress: </h2><span id='progress' style='display: none;'>{{ project.progress }}</span>
 			<div class="progress">
 			  <div id='progress-bar' class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%; transition: none;"></div>
 			</div>
@@ -32,6 +34,9 @@
 			    <h5 class="card-title">Edit Your Draft</h5>
 			    <p class="card-text">Recursively edit your drafts to build a well-crafted 
 			    final draft</p>
+			    {% if project.progress == 75 %}
+			    <a href="{{ url_for('project.progress_project', proj_id=project.id) }}">I'm Done With This Step</a>
+			    {% endif %}
 			    <a href="#" class="btn btn-primary">Go somewhere</a>
 			  </div>
 			</div>
@@ -44,7 +49,11 @@
 			    <h5 class="card-title">Write Your First Draft</h5>
 			    <p class="card-text">Take all of the writing that you've done so far and turn it
 			    into a workable first draft.</p>
+			    
 			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			    {% if project.progress == 75 and project.drafts.first() is not none %}
+			    <a href="{{ url_for('project.progress_project', proj_id=project.id) }}" class='btn btn-outline-success'>I'm Done With This Step</a>
+			    {% endif %}
 			  </div>
 			</div>
 			
@@ -56,7 +65,13 @@
 			    <h5 class="card-title">Create an Outline</h5>
 			    <p class="card-text">Define a thesis or topic, outline your sub-sections, and 
 			    formalize your argument.</p>
-			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			    
+			    <a href="{{ url_for('project.outline_editor', proj_id=project.id) }}" class="btn btn-primary">
+			    	{% if project.outlines.first() is none %} Create Outline {% else %} Edit Outline{% endif %}
+			    </a>
+			    {% if project.progress == 25 and project.outlines.first() is not none %}
+			    <a href="{{ url_for('project.progress_project', proj_id=project.id) }}" class='btn btn-outline-success'>I'm Done With This Step</a>
+			    {% endif %}
 			  </div>
 			</div>
 			<div class="card mt-3" id='0'>
@@ -67,9 +82,13 @@
 			    <h5 class="card-title">Come Up With a Topic</h5>
 			    <p class="card-text">Start here. This tool will help you solidify your idea and 
 			    put your thinking on paper.  </p>
+
 			    <a href="{{ url_for('project.idea_editor', proj_id=project.id) }}" class="btn btn-primary">
 			    	{% if project.ideas.first() is none %} Start Here {% else %} Edit Idea{% endif %}
 				</a>
+				{% if project.progress == 0 and project.ideas.first() is not none %}
+			    <a href="{{ url_for('project.progress_project', proj_id=project.id) }}" class='btn btn-outline-success'>I'm Done With This Step</a>
+			    {% endif %}
 			  </div>
 			</div>	
 		</div>
